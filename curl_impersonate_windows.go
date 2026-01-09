@@ -258,7 +258,7 @@ func curlEasySetoptRaw(handle unsafe.Pointer, opt int, param uintptr) CurlCode {
 	return CurlCode(r1)
 }
 
-func curlEasyGetinfoRaw(handle unsafe.Pointer, info uint32, p unsafe.Pointer) CurlCode {
+func curlEasyGetinfoRaw(handle unsafe.Pointer, info Info, p unsafe.Pointer) CurlCode {
 	if procCurlEasyGetinfo == nil || handle == nil {
 		return E_BAD_FUNCTION_ARGUMENT
 	}
@@ -523,16 +523,16 @@ func CurlEasyUnescape(handle unsafe.Pointer, url unsafe.Pointer, inlength int, o
 	r1, _, _ := procCurlEasyUnescape.Call(uintptr(handle), uintptr(url), uintptr(inlength), uintptr(outlength))
 	return unsafe.Pointer(r1)
 }
-func CurlEasyGetinfoString(handle unsafe.Pointer, info uint32, p unsafe.Pointer) CurlCode {
+func CurlEasyGetinfoString(handle unsafe.Pointer, info Info, p unsafe.Pointer) CurlCode {
 	return curlEasyGetinfoRaw(handle, info, p)
 }
-func CurlEasyGetinfoLong(handle unsafe.Pointer, info uint32, p unsafe.Pointer) CurlCode {
+func CurlEasyGetinfoLong(handle unsafe.Pointer, info Info, p unsafe.Pointer) CurlCode {
 	return curlEasyGetinfoRaw(handle, info, p)
 }
-func CurlEasyGetinfoDouble(handle unsafe.Pointer, info uint32, p unsafe.Pointer) CurlCode {
+func CurlEasyGetinfoDouble(handle unsafe.Pointer, info Info, p unsafe.Pointer) CurlCode {
 	return curlEasyGetinfoRaw(handle, info, p)
 }
-func CurlEasyGetinfoSlist(handle unsafe.Pointer, info uint32, p unsafe.Pointer) CurlCode {
+func CurlEasyGetinfoSlist(handle unsafe.Pointer, info Info, p unsafe.Pointer) CurlCode {
 	return curlEasyGetinfoRaw(handle, info, p)
 }
 func CurlEasyImpersonate(handle unsafe.Pointer, target unsafe.Pointer, defaultHeaders int) CurlCode {
@@ -770,11 +770,11 @@ func CurlMsgGetWhatever(cm CurlMsg) unsafe.Pointer {
 	return nil
 }
 
-func GetCurlInfoTypeMask() uint32 { return uint32(INFO_TYPEMASK) }
-func GetCurlInfoString() uint32   { return uint32(INFO_STRING) }
-func GetCurlInfoLong() uint32     { return uint32(INFO_LONG) }
-func GetCurlInfoDouble() uint32   { return uint32(INFO_DOUBLE) }
-func GetCurlInfoSList() uint32    { return uint32(INFO_SLIST) }
+func GetCurlInfoTypeMask() Info { return INFO_TYPEMASK }
+func GetCurlInfoString() Info   { return INFO_STRING }
+func GetCurlInfoLong() Info     { return INFO_LONG }
+func GetCurlInfoDouble() Info   { return INFO_DOUBLE }
+func GetCurlInfoSList() Info    { return INFO_SLIST }
 
 func GetWriteCallbackFuncptr() unsafe.Pointer {
 	return unsafe.Pointer(writeCallbackFuncptr)

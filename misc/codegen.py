@@ -88,9 +88,7 @@ def evaluate_c_expr(expr, defines, orig, depth=0, max_depth=30):
             pat = r"\b" + re.escape(name) + r"\b"
             if re.search(pat, e):
                 # resolve that define
-                if re.fullmatch(r"-?\d+|0[xX][0-9A-Fa-f]+", val.strip()):
-                    sub = val.strip()
-                elif val.strip() == name:
+                if val.strip() == name:
                     sub = name
                 else:
                     sub = evaluate_c_expr(val, defines, name, depth + 1, max_depth)
@@ -200,9 +198,17 @@ def main():
         seen = {k: set() for k in raw}
 
         curle_counter = 0
-        curlinfo_counter = 0
+        curlinfo_counter = -1
 
         for L in lines:
+            if "typedef enum" in L:
+                curlinfo_counter = 0
+                continue
+            
+            if curlinfo_counter != -1 and L.strip() == "}":
+                curlinfo_counter = -1
+                continue
+                
             # EasyOpts via CINIT
             m = init_pat.search(L)
             if m:

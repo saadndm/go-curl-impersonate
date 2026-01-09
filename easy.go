@@ -170,6 +170,12 @@ func (curl *CURL) Setopt(opt EasyOpt, param any) error {
 			curl.readData = nil
 			return newCurlError(CurlEasySetoptFunction(p, int(opt), unsafe.Pointer((*struct{})(nil))))
 		}
+		f, ok := param.(func([]byte, any) int)
+		if !ok {
+			return fmt.Errorf("curl: expected func([]byte, any) int for READFUNCTION, got %T", param)
+		}
+		curl.readFunction = &f
+
 		if errCode := CurlEasySetoptPointer(p, int(OPT_READDATA), unsafe.Pointer(p)); errCode != 0 {
 			return newCurlError(errCode)
 		}
@@ -181,10 +187,22 @@ func (curl *CURL) Setopt(opt EasyOpt, param any) error {
 			curl.headerData = nil
 			return newCurlError(CurlEasySetoptFunction(p, int(opt), unsafe.Pointer((*struct{})(nil))))
 		}
+		f, ok := param.(func([]byte, any) bool)
+		if !ok {
+			return fmt.Errorf("curl: expected func([]byte, any) bool for HEADERFUNCTION, got %T", param)
+		}
+		curl.headerFunction = &f
+
 		if errCode := CurlEasySetoptPointer(p, int(OPT_HEADERDATA), unsafe.Pointer(p)); errCode != 0 {
 			return newCurlError(errCode)
 		}
 		return newCurlError(CurlEasySetoptFunction(p, int(opt), GetHeaderCallbackFuncptr()))
+
+	case OPT_HEADERDATA:
+		curl.headerData = param
+		// We do NOT set the C-level WRITEDATA because HEADERFUNCTION sets it to 'p' (the context)
+		// so that the Go callback wrapper can find the context and then access curl.headerData.
+		return nil
 
 	case OPT_XFERINFOFUNCTION:
 		if param == nil {
@@ -380,7 +398,13 @@ func (curl *CURL) Perform() error {
 	if p == nil {
 		return fmt.Errorf("curl: easy handle is nil")
 	}
-	return newCurlError(CurlEasyPerform(p))
+	err := newCurlError(CurlEasyPerform(p))
+
+	runtime.KeepAlive(curl.headerData)
+	runtime.KeepAlive(curl.writeData)
+	runtime.KeepAlive(curl.readData)
+	runtime.KeepAlive(curl.progressData)
+	return err
 }
 
 // curl_easy_pause - pause and unpause a connection
@@ -477,7 +501,7 @@ func goStringSys(ccharPtr uintptr) string {
 	return string(unsafe.Slice((*byte)(ptr), length))
 }
 
-func (curl *CURL) Getinfo(infoConstant uint32) (any, error) {
+func (curl *CURL) Getinfo(infoConstant Info) (any, error) {
 	p := curl.handle
 	if p == nil {
 		return nil, fmt.Errorf("curl: easy handle is nil")

@@ -358,19 +358,19 @@ func CurlEasyUnescape(handle unsafe.Pointer, url unsafe.Pointer, inlength int, o
 	return unsafe.Pointer(C.curl_easy_unescape(handle, (*C.char)(url), C.int(inlength), (*C.int)(outlength)))
 }
 
-func CurlEasyGetinfoString(handle unsafe.Pointer, info uint32, p unsafe.Pointer) CurlCode {
+func CurlEasyGetinfoString(handle unsafe.Pointer, info Info, p unsafe.Pointer) CurlCode {
 	return CurlCode(C.easy_getinfo_string_helper(handle, C.CURLINFO(info), (**C.char)(p)))
 }
 
-func CurlEasyGetinfoLong(handle unsafe.Pointer, info uint32, p unsafe.Pointer) CurlCode {
+func CurlEasyGetinfoLong(handle unsafe.Pointer, info Info, p unsafe.Pointer) CurlCode {
 	return CurlCode(C.easy_getinfo_long_helper(handle, C.CURLINFO(info), (*C.long)(p)))
 }
 
-func CurlEasyGetinfoDouble(handle unsafe.Pointer, info uint32, p unsafe.Pointer) CurlCode {
+func CurlEasyGetinfoDouble(handle unsafe.Pointer, info Info, p unsafe.Pointer) CurlCode {
 	return CurlCode(C.easy_getinfo_double_helper(handle, C.CURLINFO(info), (*C.double)(p)))
 }
 
-func CurlEasyGetinfoSlist(handle unsafe.Pointer, info uint32, p unsafe.Pointer) CurlCode {
+func CurlEasyGetinfoSlist(handle unsafe.Pointer, info Info, p unsafe.Pointer) CurlCode {
 	return CurlCode(C.easy_getinfo_slist_helper(handle, C.CURLINFO(info), (**C.struct_curl_slist)(p)))
 }
 
@@ -540,11 +540,11 @@ func CurlMsgGetWhatever(cm CurlMsg) unsafe.Pointer {
 	return C.curl_msg_get_whatever((*C.CURLMsg)(cm))
 }
 
-func GetCurlInfoTypeMask() uint32 { return uint32(C.CURLINFO_TYPEMASK) }
-func GetCurlInfoString() uint32   { return uint32(C.CURLINFO_STRING) }
-func GetCurlInfoLong() uint32     { return uint32(C.CURLINFO_LONG) }
-func GetCurlInfoDouble() uint32   { return uint32(C.CURLINFO_DOUBLE) }
-func GetCurlInfoSList() uint32    { return uint32(C.CURLINFO_SLIST) }
+func GetCurlInfoTypeMask() Info { return Info(C.CURLINFO_TYPEMASK) }
+func GetCurlInfoString() Info   { return Info(C.CURLINFO_STRING) }
+func GetCurlInfoLong() Info     { return Info(C.CURLINFO_LONG) }
+func GetCurlInfoDouble() Info   { return Info(C.CURLINFO_DOUBLE) }
+func GetCurlInfoSList() Info    { return Info(C.CURLINFO_SLIST) }
 
 func GetWriteCallbackFuncptr() unsafe.Pointer {
 	return unsafe.Pointer(C.get_c_write_callback_ptr())
