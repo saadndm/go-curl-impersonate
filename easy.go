@@ -262,7 +262,8 @@ func (curl *CURL) Setopt(opt EasyOpt, param any) error {
 	case []byte:
 		var dataPtr unsafe.Pointer
 		if len(v) > 0 {
-			dataPtr = unsafe.Pointer(&v[0])
+			dataPtr = C.CBytes(v)
+			curl.mallocAddPtr(dataPtr)
 		}
 		errCode := CurlEasySetoptPointer(p, int(opt), dataPtr)
 		if errCode != 0 {
