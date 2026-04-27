@@ -1,2 +1,10 @@
-golang.org/x/sys v0.33.0 h1:q3i8TbbEz+JRD9ywIRlyRAQbM0qF7hu24q3teo2hbuw=
-golang.org/x/sys v0.33.0/go.mod h1:BJP2sWEmIv4KK5OTEluFJCKSidICx8ciO85XgH3Ak8k=
+github.com/saadndm/go-curl-impersonate-libs/aarch64-linux-gnu v1.5.6 h1:gq7mL6Sh8oeTPb/BXyWI5UD/Jfhs+JFwh5wSHQyUK8Y=
+github.com/saadndm/go-curl-impersonate-libs/aarch64-linux-gnu v1.5.6/go.mod h1:5F4M4VErkh9FHO8lQTbPe0Tpg3k6PIyYIttLJYKGdC0=
+github.com/saadndm/go-curl-impersonate-libs/arm64-macos v1.5.6 h1:Y4qeIviWk93ZuJo5cqmd1KpjJrg4hUeG4IiSfMTUBu8=
+github.com/saadndm/go-curl-impersonate-libs/arm64-macos v1.5.6/go.mod h1:N7MEtnO1QX0BPLre3M5eAPo08msmVYTmcLr5jx+i2G0=
+github.com/saadndm/go-curl-impersonate-libs/x86_64-linux-gnu v1.5.6 h1:RfBKNLLttV7IlA6dUteqrWCxVxOL0XxIkGvnXtbWwrY=
+github.com/saadndm/go-curl-impersonate-libs/x86_64-linux-gnu v1.5.6/go.mod h1:lTyslRsoESi7su8kOVCDoi6+QR2kMCU8MYc4r+fp96Y=
+github.com/saadndm/go-curl-impersonate-libs/x86_64-macos v1.5.6 h1:r6sYO/0Sq31ti+zN+S0bPx0F1gh52jSC8Con9Rce5yo=
+github.com/saadndm/go-curl-impersonate-libs/x86_64-macos v1.5.6/go.mod h1:kHzxJQmvDvz7KsQHXgBvbePZbGnufZqXtd74ZHd4pEg=
+github.com/saadndm/go-curl-impersonate-libs/x86_64-win32 v1.5.6 h1:r+VU2wK+9bxuTl4mRHKLKv2KTbznlm7IwTP6ZdlYxJI=
+github.com/saadndm/go-curl-impersonate-libs/x86_64-win32 v1.5.6/go.mod h1:iKg6yB22j6qBfEs2X+Uyo/b648nC4Q0aEsDfuenSzWc=
